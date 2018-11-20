@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+	<h3>List of Banks</h3>
+	<hr/>
+	<label>Select:</label>
+	<select id = "selectList">
+		<% for(var i = 0; i < listVals.length; i++)
+			{
+				%><option><%= listVals[i] %></option> <%
+			}%>
+	</select>
+  </body>
+</html>
