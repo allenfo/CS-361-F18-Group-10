@@ -1,40 +1,27 @@
 var express = require('express');
 var router = express.Router();
-var sql = require ('mssql');
+var sql = require ('mysql');
 
+var pool = mysql.createPool(
+{
+  connectionLimit: 10,
+  host  : 'localhost',
+  user  : 'student',
+  password: 'default',
+  database: 'student'
+});
 
-router.get('/', function(req, res, next) {
-    sql.connect(config).then(() => {
-        return sql.query`select Project_Type_Desc from Project_Type`
+router.get('/', function(req, res, next) 
+{
+    sql.connect(pool).then(() => {
+        return sql.query 'select Name from Banks_Name'
     }).then(result => {
         console.log(result)
-        // Pass the DB result to the template
-        res.render('newProject', {dropdownVals: result})
+        res.render('db_Fetch', {listVals: result})
     }).catch(err => {
         console.log(err)
     })
 });
-
-
-const config = {
-    user: 'sa',
-    password: 'password',
-    server: 'localhost\\SQLEXPRESS', // You can use 'localhost\\instance' to connect to named instance
-    database: 'pcgdb',
-
-    options: {
-        encrypt: false // Use this if you're on Windows Azure
-    }
-};
-
-
-sql.connect(config).then(() => {
-    return sql.query`select Project_Type_Desc from Project_Type`
-}).then(result => {
-    console.log(result)
-}).catch(err => {
-    console.log(err)
-})
 
 
 
