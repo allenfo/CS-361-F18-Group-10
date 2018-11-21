@@ -1,0 +1,22 @@
+CREATE TABLE Months (
+  ID int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  month varchar(255) NOT NULL,
+  expenses int(11),
+  note text
+) ENGINE=InnoDB;
+
+INSERT INTO Months
+(month)
+VALUES
+("January"),
+("February"),
+("March"),
+("April"),
+("May"),
+("June"),
+("July"),
+("August"),
+("September"),
+("October"),
+("November"),
+("December"); 
