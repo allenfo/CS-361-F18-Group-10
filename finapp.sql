@@ -1,3 +1,5 @@
+-- Person table: They are given an ID, name, address, age, and income
+
 CREATE TABLE `fin_people` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `fname` varchar(255) NOT NULL,
@@ -10,6 +12,8 @@ CREATE TABLE `fin_people` (
 
 INSERT INTO fin_people (user_id,fname,lname,address,age,annual_inc) VALUES (1,'Mike','Alpha','Sanfrancisco CA',30,80000);
 
+-- financial accounts
+
 CREATE TABLE `fin_acct` (
   `acct_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -19,6 +23,8 @@ CREATE TABLE `fin_acct` (
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 INSERT INTO fin_acct (acct_id,name,acct_type) VALUES (1,'Wells Fargo','Bank');
+
+-- Linking the person and financial tables together to create a profile.
 
 CREATE TABLE `fin_acct_info` (
   `aid` int(11) NOT NULL DEFAULT '0',
@@ -31,6 +37,8 @@ CREATE TABLE `fin_acct_info` (
   FOREIGN KEY (`aid`) REFERENCES `fin_acct` (`acct_id`),
   FOREIGN KEY (`uid`) REFERENCES `fin_people` (`user_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
+
+-- Names of banks
 
 CREATE TABLE Banks_Name (
   ID int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
