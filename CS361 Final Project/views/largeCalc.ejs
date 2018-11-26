@@ -1,0 +1,51 @@
+<% include partials/header %>
+
+    <div class="ui main text container segment">
+        <div class="ui huge header">Large Purchase Calculator
+        </div>
+
+        <% var totalExpenses = 0; var availableIncome = 0;%>
+        <% var annualIncome = 0; var total = 0 %>
+        <% var estPayment = 0; %>
+
+        <% fin_people.forEach(function(list){ %>
+            <% annualIncome = list.annual_inc %>
+            Annual Income: $<%= annualIncome %><br>
+        <% }); %>
+
+        
+        <% context.forEach(function(list){ %>
+            <% totalExpenses += list.expenses %>
+        <% }); %>
+
+            Annual Expenses: $<%= totalExpenses %><br>
+        <% total = annualIncome - totalExpenses %>
+            Available Income: $<%= total %><br>
+        
+        Purchase Amount:<br>
+        <input type="number" id="purchase">
+        <button onclick="myFunction()">Set</button>
+        <script type="text/javascript"> 
+            document.getElementById("purchase").setAttribute('value','');
+        </script><br>
+
+        Number of Years - Financed:<br>
+        <input type="number" id="years">
+        <button onclick="myFunction()">Set</button>
+        <script type="text/javascript"> 
+            function myFunction(int avail) {
+                var x = document.getElementById("years").value;
+                document.getElementById("value").innerHTML = x;
+            }
+        </script><br>
+        
+        Est. Available Money: $<%= availableIncome %><br>
+        <p><h1>Est. Monthly Payments: $<%= estPayment %></h1></p>
+        
+
+<div id="result"> </div>
+
+    </div>
+
+<% include partials/footer %>
+

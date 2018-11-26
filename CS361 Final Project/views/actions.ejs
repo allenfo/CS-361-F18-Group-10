@@ -1,22 +1,32 @@
 <% include partials/header %>
 
-    
+
     <div class="ui main text container segment">
            <div class="ui huge header">
         </div>
         <form class="ui form" action="/" method="GET">
             <div class="field">
                 <label>Bank</label>
-                <select name="banks">
-                    <optgroup>
+                <select name="banks" id="banks">
                         <option value=""> Select Bank </option>
                         <% context.forEach(function(list){ %>
-                        <option value="<%= list.name %>"><%= list.NAME %></option>
+                        <option value="<%= list.website %>">
+                             <%= list.name %>
+                        </option>
                         <% }); %>
-                    </optgroup>
                 </select>
+                <script type="text/javascript">
+                    var urlmenu = document.getElementById( 'banks' );
+                    urlmenu.onchange = function() {
+                        window.open(  this.options[ this.selectedIndex ].value );
+                    };
+                </script>
             </div>
-            <input class="ui red med basic button" value="Next" type="submit">
+
+
+
+
+           <!--  <input class="ui red med basic button" value="Next" type="submit"> -->
         </form>
         <form class="ui form" action="/">
             <input class="ui blue med  button" value="Cancel" type="submit">

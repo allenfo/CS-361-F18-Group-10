@@ -18,7 +18,7 @@ app.get('/', function(req, res, next){
 
 // Actions
 app.get('/actions', function(req, res, next){
-	mysql.pool.query("SELECT * FROM Banks_Name", function(err, rows, fields){
+	mysql.pool.query("SELECT * FROM fin_acct", function(err, rows, fields){
 	 		if(err) throw err;
 	res.render('actions', {context: rows});
 	});
@@ -42,21 +42,31 @@ app.get('/month', function(req, res, next){
 
 // EDIT Note
 app.get('/editNote/:month', function(req, res, next){
-	mysql.pool.query("SELECT * FROM Months WHERE month = ' "+req.params.month+"'", function(err, rows, fields){
+	mysql.pool.query("SELECT * FROM Months", function(err, rows, fields){
 		if(err) throw err;
 		res.render('editNote', { context: rows });
 	});
 });
 
 // UPDATE Note 
-app.post('/updateNote/:note', function(req, res, next){
-	mysql.pool.query("UPDATE review SET note=? WHERE month=' "+req.params.month+" '", 
-	[req.body.score, req.body.description], function(err, results){
+app.post('/updateNote/:month', function(req, res, next){
+	mysql.pool.query("UPDATE Months SET note=? WHERE month=' "+req.params.month+" '", 
+	[req.body.note], function(err, results){
 		if(err) throw err;
-		return res.redirect('/review');
+		return res.redirect('/month');
 	});
 });
 
+//Large Purchase
+app.get('/largeCalc', function(req, res, next){
+	mysql.pool.query("SELECT * FROM Months", function(err, rows, fields){
+		if(err) throw err;
+		mysql.pool.query("SELECT * FROM fin_people",	function(err, peo, fields){
+			if(err) throw err;
+			res.render('largeCalc', {context: rows, fin_people: peo});
+		});
+	});
+});
 
 // Login
 app.get('/login', function(req, res, next){
