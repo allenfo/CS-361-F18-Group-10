@@ -21,26 +21,15 @@
             Annual Expenses: $<%= totalExpenses %><br>
         <% total = annualIncome - totalExpenses %>
             Available Income: $<%= total %><br>
-        
+        <form method="POST" action="/calculate">
         Purchase Amount:<br>
-        <input type="number" id="purchase">
-        <button onclick="myFunction()">Set</button>
-        <script type="text/javascript"> 
-            document.getElementById("purchase").setAttribute('value','');
-        </script><br>
-
+        <input type="number" name="amount"><br>
         Number of Years - Financed:<br>
-        <input type="number" id="years">
-        <button onclick="myFunction()">Set</button>
-        <script type="text/javascript"> 
-            function myFunction(int avail) {
-                var x = document.getElementById("years").value;
-                document.getElementById("value").innerHTML = x;
-            }
-        </script><br>
-        
-        Est. Available Money: $<%= availableIncome %><br>
-        <p><h1>Est. Monthly Payments: $<%= estPayment %></h1></p>
+        <input type="number" name="years"><br>
+        <input type="submit" value="Set"><br>
+        </form>
+        <% estPayment = userInput.noAmount / (userInput.noYears * 12) %>
+        <p><h1>Est. Monthly Payments: $<%= estPayment.toFixed([2]) %></h1></p>
         
 
 <div id="result"> </div>
