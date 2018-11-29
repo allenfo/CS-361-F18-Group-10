@@ -68,6 +68,22 @@ app.get('/largeCalc', function(req, res, next){
 	});
 });
 
+//Large Purchase
+app.post('/calculate', function(req, res, next){
+	var input = {
+		noYears : req.body.years,
+		noAmount : req.body.amount
+	}
+	mysql.pool.query("SELECT * FROM Months", function(err, rows, fields){
+		if(err) throw err;
+		mysql.pool.query("SELECT * FROM fin_people",	function(err, peo, fields){
+			if(err) throw err;
+			res.render('largeCalc', {context: rows, fin_people: peo, userInput: input});
+		});
+	});
+});
+
+
 // Login
 app.get('/login', function(req, res, next){
 	res.render('login');
