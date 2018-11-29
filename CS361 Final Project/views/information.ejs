@@ -10,6 +10,7 @@
 		<div class="address">Location</div>
 		<div class="age">Age</div>
 		<div class="income">Income</div>
+
 	</div>
 	<div class="clear"></div>
 </div>
@@ -20,6 +21,7 @@
 		<div class="description"><%= context[i] ? context[i].address : '' %></div>
 		<div class="score"><%= context[i] ? context[i].age : ''%></div>
 		<div class="description"><%= context[i] ? context[i].annual_inc : '' %></div>
+		<div><a href="/update_info/<%= context[i] ? context[i].user_id : '' %>">Update</a></div>
 	</div>
 	</div>
 	<div class="clear"></div>

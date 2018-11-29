@@ -10,6 +10,8 @@ app.set('view engine', 'ejs');
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('port', process.argv[2]);
+app.set('mysql', mysql);
+
 
 // HOME
 app.get('/', function(req, res, next){
@@ -29,6 +31,24 @@ app.get('/information', function(req, res, next){
 	mysql.pool.query("SELECT * FROM fin_people", function(err, rows, fields){
 	 		if(err) throw err;
 	res.render('information', {context: rows});
+	});
+});
+//updating information
+app.get('/update_info/:user_id', function(req, res){
+       mysql.pool.query("SELECT * FROM fin_people", function(err, rows, fields){
+	 		if(err) throw err;
+	res.render('update_info', {context: rows});
+	});
+});
+app.post('/update_info/:user_id', function(req, res){
+	console.log(req.body)
+	console.log(req.params.user_id)
+	var mysql = req.app.get('mysql');
+	var sql = "UPDATE fin_people SET fname =?, lname=?, address=?, age=?, annual_inc=?";
+	mysql.pool.query(sql,[req.body.fname, req.body.lname, req.body.address, req.body.age, req.body.annual_inc, req.params.user_id], 
+	function(err, results,fields){
+		if(err) throw err;
+		return res.redirect('/information');
 	});
 });
 
