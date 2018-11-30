@@ -63,3 +63,20 @@ VALUES
 ("Citi"),
 ("JPMorgan Chase"),
 ("Wells Fargo"); 
+
+--Monthly Forecast table
+CREATE TABLE forecast (
+  ID int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  CATEGORY varchar(255) NOT NULL,
+  LASTMONTH double,
+  CURRENTMONTH double
+) ENGINE=InnoDB;
+--sample data
+INSERT INTO forecast
+(CATEGORY, LASTMONTH, CURRENTMONTH)
+VALUES
+("Food", 453.77, 420),
+("Utilities", 215, 270),
+("Entertainment", 80, 110),
+("Insurance", 360.55, 360.55),
+("Phone", 75, 75); 
