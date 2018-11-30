@@ -155,3 +155,11 @@ app.post('/saveCalc', function(req, res, next){
 		});
 	});
 });
+
+//monthly forecast
+app.get('/forecast', function(req, res, next){
+	mysql.pool.query("SELECT *,((LASTMONTH + CURRENTMONTH)/2) as NEXTMONTH from forecast", function(err, rows, fields){
+	 		if(err) throw err;
+	res.render('forecast', {context: rows});
+	});
+});
