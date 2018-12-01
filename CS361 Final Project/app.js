@@ -6,12 +6,17 @@ var mysql = require('./dbcon.js');
 
 // APP CONFIG
 //app.set('port', 3000);
+
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true }));
+app.use(bodyParser.json())
 app.set('port', process.argv[2]);
-app.set('mysql', mysql);
 
+app.use(function(req,res,next){
+    res.locals.userInput = 0;
+    next();
+})
 
 // HOME
 app.get('/', function(req, res, next){
@@ -33,6 +38,7 @@ app.get('/information', function(req, res, next){
 	res.render('information', {context: rows});
 	});
 });
+
 //updating information
 app.get('/update_info/:user_id', function(req, res){
        mysql.pool.query("SELECT * FROM fin_people", function(err, rows, fields){
@@ -51,6 +57,7 @@ app.post('/update_info/:user_id', function(req, res){
 		return res.redirect('/information');
 	});
 });
+
 
 // Monthly
 app.get('/month', function(req, res, next){
@@ -88,30 +95,6 @@ app.get('/largeCalc', function(req, res, next){
 	});
 });
 
-
-// Login
-app.get('/login', function(req, res, next){
-	res.render('login');
-});
-
-// About
-app.get('/about', function(req, res, next){
-	res.render('about');
-});
-
-
-app.use(function(err, req, res, next){
-  console.error(err.stack);
-  res.status(500);
-  res.render('500');
-});
-
-app.listen(app.get('port'), function(){
-  console.log('Express started on flip3.engr.oregonstate.edu:' + app.get('port') + '; press Ctrl-C to terminate.');
-});
-
-
-
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 //Large Purchase
@@ -145,8 +128,9 @@ app.get('/savingsGoal', function(req, res, next){
 app.post('/saveCalc', function(req, res, next){
 	var input = {
 		noMonths : req.body.monthAmount,
-		noAmount : req.body.amount
+		noAmount : req.body.amount 
 	}
+	console.log(input);
 	mysql.pool.query("SELECT * FROM Months", function(err, rows, fields){
 		if(err) throw err;
 		mysql.pool.query("SELECT * FROM fin_people",	function(err, peo, fields){
@@ -156,10 +140,33 @@ app.post('/saveCalc', function(req, res, next){
 	});
 });
 
+
 //monthly forecast
 app.get('/forecast', function(req, res, next){
-	mysql.pool.query("SELECT *,ROUND((LASTMONTH + CURRENTMONTH)/2, 2) AS NEXTMONTH from forecast", function(err, rows, fields){
+	mysql.pool.query("SELECT *, ROUND((LASTMONTH + CURRENTMONTH)/2, 2) AS NEXTMONTH from forecast", 
+		function(err, rows, fields){
 	 		if(err) throw err;
 	res.render('forecast', {context: rows});
 	});
 });
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+// About
+app.get('/about', function(req, res, next){
+	res.render('about');
+});
+
+
+app.use(function(err, req, res, next){
+  console.error(err.stack);
+  res.status(500);
+  res.render('500');
+});
+
+app.listen(app.get('port'), function(){
+  console.log('Express started on flip3.engr.oregonstate.edu:' + app.get('port') + '; press Ctrl-C to terminate.');
+});
+
+
+
